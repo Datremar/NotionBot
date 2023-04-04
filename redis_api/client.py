@@ -11,6 +11,9 @@ from tg_bot.utils.user_data import UserData
 class _RedisClient:
     def __init__(self, host: str, port: int):
         self.pool = redis.ConnectionPool(host=host, port=port, db=0)
+        self.redis = None
+
+    def init(self):
         self.redis = redis.Redis(connection_pool=self.pool)
 
     def save_user(self, user: UserData):
