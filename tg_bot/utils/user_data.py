@@ -8,6 +8,13 @@ class UserData:
     database_id: str
     task: dict
 
+    def from_redis(self, key: str, value: dict):
+        self.id = key
+
+        self.user_db_id = value["user_db_id"]
+        self.database_id = value["database_id"]
+        self.task = value["task"]
+
     def to_redis(self):
         return {
             "key": self.id,
