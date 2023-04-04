@@ -19,6 +19,9 @@ class _RedisClient:
     def save_user(self, user: UserData):
         self.__setitem__(user.id, user.to_redis())
 
+    def __contains__(self, item):
+        return self.redis.exists(item)
+
     def __getitem__(self, key: str):
         if type(key) is not str:
             raise TypeError("The key provided was not str type.")
@@ -39,6 +42,8 @@ class _RedisClient:
 
         if type(value) is dict:
             self.redis.set(key, dumps(value))
+        else:
+            self.redis.set(key, value)
 
 
 class RedisClient:
@@ -49,3 +54,9 @@ class RedisClient:
             RedisClient._instance = _RedisClient(host="localhost", port=6379)
 
         return RedisClient._instance
+
+
+# if __name__ == "__main__":
+#     client = RedisClient()
+#     client.init()
+#
