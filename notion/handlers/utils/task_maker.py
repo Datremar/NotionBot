@@ -1,11 +1,11 @@
 class TaskMaker:
-    def __new__(cls, name: str, text: str, description: str, worker: str, deadline: str) -> dict:
+    def __new__(cls, name: str, description: str, worker: str, deadline: str) -> dict:
         return {
             "Name": {
                 "title": [
                     {
                         "text": {
-                            "content": text
+                            "content": name
                         }
                     }
                 ]

@@ -1,6 +1,7 @@
-from aiogram.utils import executor
-
-from telegram.bot import dispatcher
+from tg_bot.bot import Bot
 
 if __name__ == '__main__':
-    executor.start_polling(dispatcher, skip_updates=True)
+    bot = Bot(token="")
+    bot.init_handlers()
+
+    bot.run()
