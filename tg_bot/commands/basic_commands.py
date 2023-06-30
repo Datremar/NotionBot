@@ -14,5 +14,5 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Here's what you can do:"
-                                    "\n/help - to get commands descriptions,"
-                                    "\n/task - to create a task in Notion.")
+                                    "\n/start - to start chatting with the bot,"
+                                    "\n/help - to see available commands.")

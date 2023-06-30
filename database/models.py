@@ -1,5 +1,5 @@
-from sqlalchemy import Column, String, Integer, ForeignKey
-from sqlalchemy.orm import declarative_base
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import declarative_base, Mapped, mapped_column
 
 Base = declarative_base()
 
@@ -7,23 +7,37 @@ Base = declarative_base()
 class UserModel(Base):
     __tablename__ = "User"
 
-    id = Column(Integer, primary_key=True)
-    username = Column(String, unique=True, nullable=False)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    username: Mapped[str] = mapped_column(nullable=False, unique=True)
 
     def __repr__(self):
-        return rf"User(id={self.id}, username={self.username})"
+        return f"{self.id}, {self.username}"
 
 
-class NotionLinkModel(Base):
-    __tablename__ = "NotionLink"
+class FieldsModel(Base):
+    __tablename__ = "Fields"
 
-    id = Column(Integer, primary_key=True)
-    database_id = Column(String, nullable=False)
-    user_db_id = Column(String, nullable=False)
-    projects_db_id = Column(String, nullable=False)
+    id: Mapped[int] = mapped_column(primary_key=True)
 
-    user = Column(Integer, ForeignKey("User.id"))
+    task_name_field: Mapped[str] = mapped_column(nullable=False)
+    project_field_name: Mapped[str] = mapped_column(default=None, nullable=True)
+    worker_field_name: Mapped[str] = mapped_column(default=None, nullable=True)
+    deadline_field_name: Mapped[str] = mapped_column(default=None, nullable=True)
+
+
+class ConnectionModel(Base):
+    __tablename__ = "Connection"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+
+    user: Mapped[int] = mapped_column(ForeignKey("User.id"), nullable=False)
+
+    name: Mapped[str] = mapped_column(nullable=False)
+    token: Mapped[str] = mapped_column(nullable=False)
+    database_id: Mapped[str] = mapped_column(nullable=False)
+    user_db_id: Mapped[str] = mapped_column(default=None, nullable=True)
+    projects_db_id: Mapped[str] = mapped_column(default=None, nullable=True)
+    fields: Mapped[int] = mapped_column(ForeignKey("Fields.id"), nullable=False)
 
     def __repr__(self):
-        return f"Link(id={self.id}, user={self.user}, database_id={self.database_id}, user_db_id={self.user_db_id}, projects_db_id={self.projects_db_id})"
-
+        return f"({self.id}, {self.user}, {self.name})"

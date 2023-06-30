@@ -1,28 +1,15 @@
 from dataclasses import dataclass
+from typing import Dict
+
+from notion.connection import Connection
 
 
 @dataclass
 class UserData:
     username: str
-    task: dict
-    deadline: dict
+    connections: Dict[str, Connection]
+    current_connection: Connection | None
 
-    def wipe(self):
-        self.task.clear()
-        self.deadline.clear()
+    def save(self, user_handler):
+        user_handler.save_user(username=self.username)
 
-    def to_dict(self):
-        return self.username, {
-            "task": self.task,
-        }
-
-
-if __name__ == "__main__":
-    u1 = UserData(
-        username="Datremar",
-        task={},
-        deadline={}
-    )
-
-    print(u1)
-    print(*u1.to_dict())

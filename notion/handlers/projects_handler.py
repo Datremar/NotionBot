@@ -1,16 +1,36 @@
-from notion.client import client
+import logging
+
+from notion_client import APIResponseError
+
+from notion.client import NotionClient
 
 
-class _ProjectsHandler:
-    def __init__(self):
-        self.projects_db_id = "3510130d332640ec982bbfe8520b9b7f"
+logger = logging.getLogger(__name__)
+
+
+class ProjectsHandler:
+    def __init__(self, projects_db_id: str, client: NotionClient):
+        self.client = client
+        self.projects_db_id = projects_db_id
         self.projects = dict()
 
+    def has_db_connection(self) -> bool:
+        logger.info("Checking Notion db connection")
+        try:
+            self.client.databases.retrieve(database_id=self.projects_db_id)
+        except APIResponseError:
+            return False
+
+        return True
+
     def get_id(self, item):
+        if item not in self.projects:
+            return None
         return self.projects[item]
 
     def get_projects(self) -> dict:
-        response = client.databases.query(database_id=self.projects_db_id)["results"]
+        logger.info("Requesting projects from Notion projects db")
+        response = self.client.databases.query(database_id=self.projects_db_id)["results"]
         self.projects = {}
 
         for item in response:
@@ -19,24 +39,3 @@ class _ProjectsHandler:
             self.projects[name] = id
 
         return self.projects
-
-
-class ProjectsHandler:
-    _instance = None
-
-    def __new__(cls, *args, **kwargs):
-        if not ProjectsHandler._instance:
-            ProjectsHandler._instance = _ProjectsHandler()
-
-        return ProjectsHandler._instance
-
-
-if __name__ == "__main__":
-    handler = ProjectsHandler()
-
-    response = handler.get_projects()
-    print(response)
-
-    # for item in response:
-    #     print(item)
-    #     print()

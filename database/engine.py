@@ -1,3 +1,9 @@
+import logging
+
 from sqlalchemy import create_engine
 
-engine = create_engine('sqlite:///C:/Users/Yaroslav/PycharmProjects/NotionBot/database/database.db')
+
+logger = logging.getLogger(__name__)
+
+logger.info("Initializing engine")
+engine = create_engine('sqlite:///database/database.db')

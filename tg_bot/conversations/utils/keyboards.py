@@ -1,17 +1,20 @@
 from datetime import date
 from calendar import monthrange
+
 from telegram import ReplyKeyboardMarkup
 
-from tg_bot.conversations.utils.buttons import MAKE_TASK, CANCEL, BACK, SKIP
+from tg_bot.conversations.utils.buttons import MAKE_TASK, CANCEL, BACK, SKIP, SELECT_CONNECTION, ADD_CONNECTION, \
+    DELETE_CONNECTION
 
 
 class StandardKeyboards:
     MAIN_MENU = ReplyKeyboardMarkup([
         [MAKE_TASK],
+        [SELECT_CONNECTION, ADD_CONNECTION, DELETE_CONNECTION],
     ], resize_keyboard=True)
 
     @staticmethod
-    def IN_PROGRESS(markup=None):
+    def IN_PROGRESS(markup=None) -> ReplyKeyboardMarkup:
         keyboard = [
             [SKIP, CANCEL, BACK],
         ]
@@ -23,9 +26,8 @@ class StandardKeyboards:
 
 
 class DateKeyboards:
-    year = StandardKeyboards.IN_PROGRESS(markup=([str(date.today().year + i)] for i in range(11)))
-    month = StandardKeyboards.IN_PROGRESS(
-        markup=[
+    years = list([str(date.today().year + i)] for i in range(11))
+    months = [
             ["Январь"],
             ["Февраль"],
             ["Март"],
@@ -39,7 +41,9 @@ class DateKeyboards:
             ["Ноябрь"],
             ["Декабрь"]
         ]
-    )
+
+    year = StandardKeyboards.IN_PROGRESS(markup=years)
+    month = StandardKeyboards.IN_PROGRESS(markup=months)
 
     @staticmethod
     def day(month: str, year: str):
