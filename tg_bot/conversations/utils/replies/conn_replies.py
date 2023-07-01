@@ -153,8 +153,8 @@ async def end_reply(update: Update, username: str):
     project_field_name = project_field["name"] if project_field is not None else None
     deadline_field_name = deadline_field["name"] if deadline_field is not None else None
 
-    user_db_id = conn["user_db_id"] if project_field is not None else None
-    projects_db_id = conn["projects_db_id"] if deadline_field is not None else None
+    user_db_id = conn["user_db_id"] if worker_field is not None else None
+    projects_db_id = conn["projects_db_id"] if project_field is not None else None
 
     connection = cache[username]["profile"].connections[con_name] = Connection(
         username=username,
