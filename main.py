@@ -1,4 +1,5 @@
 import logging
+import os
 
 from tg_bot.bot import Bot
 from tg_bot.utils.cache import cache
@@ -16,7 +17,7 @@ logger = logging.getLogger(__name__)
 if __name__ == '__main__':
     logger.info("Starting the service")
     cache.load()
-    bot = Bot(token="5879916534:AAHJc5OXzZtJD7po4Miq5Jozf0w8kHHeQv4")
+    bot = Bot(token=os.getenv("NOTIONBOT_TOKEN"))
     bot.init_handlers()
 
     bot.run()
