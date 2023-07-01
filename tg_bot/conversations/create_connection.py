@@ -106,6 +106,10 @@ async def db_id(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("Возвращаемся...")
         return await replier.previous_reply(update=update, username=username)
 
+    if response not in cache[username]["context"]["databases"]:
+        await update.message.reply_text("Такой опции нет. Выбери вариант из списка ;)")
+        return
+
     selected_db = cache[username]["context"]["databases"][response]
 
     cache[username]["context"]["connection"]["database_id"] = selected_db
@@ -138,7 +142,11 @@ async def db_fields(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         logger.info("{} is setting up task field".format(username))
 
+        if response not in cache[username]["context"]["fields"]:
+            await update.message.reply_text("Такой опции нет. Выбери вариант из списка ;)")
+            return
         chosen_field = cache[username]["context"]["fields"][response]
+
         cache[username]["context"]["set_fields"]["task_name_field"] = chosen_field
         await update.message.reply_text(text="Выбери поле ответственного задачи:",
                                         reply_markup=StandardKeyboards.IN_PROGRESS(
@@ -148,6 +156,10 @@ async def db_fields(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
     elif "worker_field_name" not in cache[username]["context"]["set_fields"]:
         if response != SKIP.text:
+            if response not in cache[username]["context"]["fields"]:
+                await update.message.reply_text("Такой опции нет. Выбери вариант из списка ;)")
+                return
+
             chosen_field = cache[username]["context"]["fields"][response]
 
         logger.info("{} is setting up worker field".format(username))
@@ -160,6 +172,10 @@ async def db_fields(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
     elif "project_field_name" not in cache[username]["context"]["set_fields"]:
         if response != SKIP.text:
+            if response not in cache[username]["context"]["fields"]:
+                await update.message.reply_text("Такой опции нет. Выбери вариант из списка ;)")
+                return
+
             chosen_field = cache[username]["context"]["fields"][response]
 
         logger.info("{} is setting up project field".format(username))
@@ -172,6 +188,9 @@ async def db_fields(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
     elif "deadline_field_name" not in cache[username]["context"]["set_fields"]:
         if response != SKIP.text:
+            if response not in cache[username]["context"]["fields"]:
+                await update.message.reply_text("Такой опции нет. Выбери вариант из списка ;)")
+                return
             chosen_field = cache[username]["context"]["fields"][response]
 
         logger.info("{} is setting up deadline field".format(username))
@@ -205,6 +224,9 @@ async def user_db(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     logger.info("{} is setting up worker database connection".format(username))
 
+    if response not in cache[username]["context"]["databases"]:
+        await update.message.reply_text("Такой опции нет. Выбери вариант из списка ;)")
+        return
     selected_db = cache[username]["context"]["databases"][response]
 
     cache[username]["context"]["connection"]["user_db_id"] = selected_db
@@ -226,6 +248,9 @@ async def projects_db(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     logger.info("{} is setting up project database connection".format(username))
 
+    if response not in cache[username]["context"]["databases"]:
+        await update.message.reply_text("Такой опции нет. Выбери вариант из списка ;)")
+        return
     selected_db = cache[username]["context"]["databases"][response]
 
     cache[username]["context"]["connection"]["projects_db_id"] = selected_db
