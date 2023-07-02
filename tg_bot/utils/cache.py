@@ -52,7 +52,7 @@ class _Cache:
             }
 
     def new_profile(self, username: str):
-        logger.info("Cached new profile")
+        logger.info("Cached new profile for {}".format(username))
         user = UserData(
             username=username,
             connections={},
@@ -67,7 +67,7 @@ class _Cache:
             }
         }
 
-        user.save(UserHandler)
+        UserHandler.save_user(username)
 
     def wipe_context(self, username: str):
         logger.info(f"Wiping {username}'s context")
