@@ -2,10 +2,15 @@ from telegram import Update
 from telegram.ext import ContextTypes
 
 from tg_bot.conversations.utils.keyboards import StandardKeyboards
+from tg_bot.utils.cache import cache
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.message.from_user.username
+
+    if user not in cache:
+        cache.new_profile(username=user)
+
     await update.message.reply_html(
         rf"Привет, {user}!",
         reply_markup=StandardKeyboards.MAIN_MENU,
