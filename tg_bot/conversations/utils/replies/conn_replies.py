@@ -64,15 +64,25 @@ async def conn_name_reply(update: Update, username: str, **kwargs):
 
 async def token_reply(update: Update, username: str, **kwargs):
     await update.message.reply_text(text="Установим соединение с твоей базой данных Notion :D")
-    await update.message.reply_text(text="Убедись, что у тебя создан токен авторизации в Notion. Он нам скоро "
+    await update.message.reply_text(text="Убедись, что у тебя есть токен авторизации Notion. Он нам скоро "
                                          "понадобится")
-    await update.message.reply_text(text="Если ты не знаешь о каком токене идет речь, вот ссылка на то, как его "
-                                         "создать")
-    await update.message.reply_text(text="https://developers.notion.com/docs/authorization")
+    await update.message.reply_text(text="Если ты не знаешь о каком токене идет речь, спроси у администратора "
+                                         "страницы Notion токен интеграции бота")
+    await update.message.reply_text(text="Если ты являешься администратором и у тебя нет интеграции бота, то вот "
+                                         "страница, где ее можно создать")
+    await update.message.reply_text(text="https://www.notion.so/my-integrations")
+    await update.message.reply_text(text="На этой же странице, после создания интеграции, можно получить токен. Не "
+                                         "забудь его скопировать!")
+    await update.message.reply_text(text="Заметка для администраторов: Как только токен был создан, убедись, что твое "
+                                         "соединение имеет доступ к нужным базам данных (Таблица задач(обязательно), "
+                                         "база данных работников или проектов(необязательно))")
+    await update.message.reply_text(text="Чтобы дать боту доступ к базе данных, на странице твоего Notion, открой "
+                                         "таблицу, где будешь подключать бота, нажми опции(троеточие справа-сверху), "
+                                         "добавить соединение, выбери соединение бота и готово!")
 
     await asyncio.sleep(2)
 
-    await update.message.reply_text(text="Введи токен авторизации :)")
+    await update.message.reply_text(text="Введи токен интеграции бота :)")
 
     return TOKEN_QUERY
 
